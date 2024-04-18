@@ -45,7 +45,7 @@ class VetController1 extends Controller
 
     public function logout() {
         auth()->logout();
-        return redirect('/clinica');
+        return redirect('/vet');
     }
 
     public function login(Request $request) {
@@ -56,7 +56,7 @@ class VetController1 extends Controller
 
         if(auth()->guard('vet')->attempt(['nombre' => $incomingFields['loginname'], 'password' => $incomingFields['loginpassword']])) {
             $request->session()->regenerate();
-            return redirect('/clinica');
+            return redirect('/vet');
         }
         return back()->withErrors([
             'loginname' => 'The provided credentials do not match our records.',
