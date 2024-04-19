@@ -8,9 +8,11 @@ use Illuminate\Validation\Rule;
 
 class userController1 extends Controller
 {
+    /*
     public function __construct() {
         $this->middleware('auth.user')->only(['logout']);
     }
+    */
 
     public function register(Request $request) {
         
@@ -22,6 +24,11 @@ class userController1 extends Controller
         ]);
 
         $incomingFields['password'] = bcrypt($incomingFields['password']);
+        
+        foreach ($incomingFields as $key => $value) {
+            $incomingFields[$key] = strip_tags($value);
+        }
+        
         $user = User::create($incomingFields);
         auth()->login($user);
         echo "'rgistering controllar says haiii :3'";

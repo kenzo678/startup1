@@ -44,14 +44,21 @@
             {{$pet['observaciones']}}
             <br>
             <div style="border: 3px solid black; background-color: light-gray; padding; 10px; margin: 10px;">
-                <h3>Tratamientos:</h3>
+                <h2>Tratamientos:</h2>
                 @php
+                // $treatments = DB::table('visits')->where('pet_id', $pet->id)->get();
                 $treatments = \App\Models\Pet_tratamiento::where('pet_id', $pet->id)->get();
+                //Log::info('Pets found for user: ', ['pets' => $pets]);
+                //Log::info('Pet 1 found for user: ', ['pet' => $pets[0]['nombre']]);
+                //Log::info('Pet 1s owner found for user: ', ['user' => $pets[0]->petUser]);
                 @endphp
                     @if($treatments->count() > 0)
-                @foreach($treatments as $treatment)
-                <p><b>Tratamiento:</b> {{$treatment->titulo}}</p>
-                <p><b>Descripción:</b> {{$treatment->desc}}</p>
+                @foreach($treatments as $vst)
+                <h3>Veterinario: {{$vst->vet->nombre}}</h3>
+                <h3>Fecha: {{$vst['treatment_date']}} Retorno: {{$vst['checkup_date']}}</h3>
+                <h3>Titulo: {{$vst['title']}}</h3>
+                <h3>descripcion: {{$vst['description']}}</h3>
+
                 @endforeach
                     @else
                         <p>No hay tratamientos registrados para esta mascota.</p>

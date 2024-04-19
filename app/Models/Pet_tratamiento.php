@@ -9,9 +9,13 @@ class Pet_tratamiento extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['titulo', 'desc', 'pet_id']; 
+    protected $fillable = [ 'pet_id', 'veterinarian_id' ,'title', 'description', 'treatment_date', 'checkup_date']; 
 
-    public function petTrat(){
+    public function pet(){
         return $this->belongsTo(Pet::class, 'pet_id');
+    }
+
+    public function vet(){
+        return $this->belongsTo(Vet::class, 'veterinarian_id');
     }
 }

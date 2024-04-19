@@ -24,6 +24,10 @@ class clinicController1 extends Controller
 
             $incomingFields['password'] = bcrypt($incomingFields['password']);
 
+            foreach ($incomingFields as $key => $value) {
+                $incomingFields[$key] = strip_tags($value);
+            }
+            
             $vete = Veterinaria::create($incomingFields);
             Log::info('Vet created', ['veterinaria' => $vete]);
 

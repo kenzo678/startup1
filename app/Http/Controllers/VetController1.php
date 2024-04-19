@@ -29,6 +29,10 @@ class VetController1 extends Controller
 
             $incomingFields['password'] = bcrypt($incomingFields['password']);
 
+            foreach ($incomingFields as $key => $value) {
+                $incomingFields[$key] = strip_tags($value);
+            }
+
             $vet = Vet::create($incomingFields);
             Log::info('Vet created', ['vet' => $vet]);
 
