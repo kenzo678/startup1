@@ -56,10 +56,10 @@ class clinicController1 extends Controller
                 return redirect('/clinica');
             }
         } catch (\Throwable $e) {
-            //Log::error('Error occurred during login attempt', ['error' => $e->getMessage()]);
+            Log::error('Error occurred during login attempt', ['error' => $e->getMessage()]);
         }
     
-        //Log::warning('Login attempt failed', ['codigo' => $incomingFields['codigo']]);
+        Log::warning('Login attempt failed', ['codigo' => $incomingFields['codigo']]);
     
         return back()->withErrors([
             'codigo' => 'The provided credentials do not match our records.',

@@ -20,6 +20,6 @@ class CheckVetOwnership
             return $next($request);
         }
 
-        return redirect('/clinica');
+        return redirect('/clinica'); //vet or clinica?
     }
 }

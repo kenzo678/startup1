@@ -48,16 +48,10 @@ Route::post('/login', [userController1::class, 'login']);
 
 //vetlogin
 Route::get('/vet', function () {
-    /* 
-    $pets=[];
-    if(auth()->check()){
-        $pets=auth()->user()->usersCoolPets()->latest()->get();
-    }
-    return view('home', ['pets'=>$pets]);
-    */
      return view('vethome'); 
     });
-Route::post('/loginvet', [VetController1::class, 'login']);
+Route::post('/loginvet', [VetController1::class, 'login']);//->name('login');
+Route::post('/logoutvet', [VetController1::class, 'logout']);//->name('logout');
 
 //clinicaVeterinaria
 Route::get('/clinica', function () {

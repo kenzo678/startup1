@@ -74,7 +74,6 @@
         <form action="/loginclinic" method="POST">
         @csrf
         <input name="codigo" type="number" placeholder="codigo">
-        <input name="loginname" type="text" placeholder="nombre">
         <input name="loginpassword" type="password" placeholder="password">
         <button>Log in</button>
         </form>

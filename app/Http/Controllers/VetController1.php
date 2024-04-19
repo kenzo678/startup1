@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Log;
 
 class VetController1 extends Controller
 {
-    public function __construct() {
-        $this->middleware('auth')->except('showEditScreen', 'editTheVet', 'deleteVet');
-        $this->middleware('check.vet')->only('showEditScreen',/* 'editTheVet',*/ 'deleteVet');
-    }
+    //public function __construct() {
+    //    $this->middleware('auth')->except('showEditScreen', 'editTheVet', 'deleteVet');
+    //    $this->middleware('check.vet')->only('showEditScreen',/* 'editTheVet',*/ 'deleteVet','login','logout');
+    //}
+    
 
     public function register(Request $request) {
         try {
@@ -44,7 +45,7 @@ class VetController1 extends Controller
     }
 
     public function logout() {
-        auth()->logout();
+        auth()->guard('vet')->logout();
         return redirect('/vet');
     }
 
@@ -54,13 +55,19 @@ class VetController1 extends Controller
             'loginpassword' => ['required']
         ]);
 
-        if(auth()->guard('vet')->attempt(['nombre' => $incomingFields['loginname'], 'password' => $incomingFields['loginpassword']])) {
-            $request->session()->regenerate();
-            return redirect('/vet');
+        Log::info('Validation passed', $incomingFields);
+
+        try {
+            if(auth()->guard('vet')->attempt(['nombre' => $incomingFields['loginname'], 'password' => $incomingFields['loginpassword']])) {
+                $request->session()->regenerate();
+                Log::info('Vet logged in', ['vet' => auth()->guard('vet')]);
+                return redirect('/vet');
+            }
+        } catch (\Throwable $e) {
+            Log::error('Error occurred during login attempt', ['error' => $e->getMessage()]);
         }
-        return back()->withErrors([
-            'loginname' => 'The provided credentials do not match our records.',
-        ]);
+    
+        Log::warning('Login attempt failed', ['codigo' => $incomingFields['loginname']]);
     }
 
     public function showEditScreen(Vet $vet) {
