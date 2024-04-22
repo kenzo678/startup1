@@ -19,6 +19,14 @@ class TreatmentController1 extends Controller
             'checkup_date' => 'required'
         ]);
 
+        Log::info('Validation passed', $incomingFields);
+
+        $pet = Pet::findOrFail($incomingFields['pet_id']);
+        if ($pet->visible !== 1) {
+            Log::info('No se puede crear el tratamiento. Mascota no ha sido puesta visible por el dueno.');
+            return back()->withInput()->withErrors(['message' => 'No se puede crear el tratamiento. Mascota no ha sido puesta visible por el dueno.']);
+        }
+
         foreach ($incomingFields as $key => $value) {
             $incomingFields[$key] = strip_tags($value);
         }

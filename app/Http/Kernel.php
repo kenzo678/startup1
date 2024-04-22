@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        
     ];
 
     /**
@@ -74,6 +75,7 @@ class Kernel extends HttpKernel
         'check.pet' => \App\Http\Middleware\CheckPetOwnership::class,
         'check.treatment' => \App\Http\Middleware\CheckTreatmentOwnership::class,
         'check.vet' => \App\Http\Middleware\CheckVetOwnership::class,
+        'check.pet.visible' => \App\Http\Middleware\CheckPetsEnabled::class,
     ];
     
 }

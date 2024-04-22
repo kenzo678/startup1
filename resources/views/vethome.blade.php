@@ -66,11 +66,21 @@
         <form action="/loginvet" method="POST">
         @csrf
         <!-- <input name="vetid" type="number" placeholder="ID de veterinaria"> -->
-        <input name="loginname" type="text" placeholder="nombre">
+        <input name="CI" type="text" placeholder="CI">
         <input name="loginpassword" type="password" placeholder="password">
         <button>Log in</button>
         </form>
     </div>
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
         
     @endauth
 

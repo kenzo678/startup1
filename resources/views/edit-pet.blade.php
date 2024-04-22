@@ -10,7 +10,7 @@
     <form action="/edit-pet/{{$pet->id}}" method="POST">
         @csrf
         @method('PUT')
-        <input name="nombre" type="text" value="{{$pet->nombre}}"><br>
+        <h4>Datos de <b>{{$pet['nombre']}}</b></h4>
         <input name="peso" type="number" step="0.01" value={{ $pet->peso }} required><br>
         <textarea name="observaciones">{{$pet->observaciones}}</textarea><br>
         <button>GuadrarCambios !!!</button>

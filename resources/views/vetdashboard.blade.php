@@ -17,6 +17,7 @@
         @csrf
         <input name="veterinaria_id" type="hidden" value={{ Auth::guard('veterinaria')->user()->id }}>
         <input name="nombre" type="text" placeholder="nombre de veterinario"><br>
+        <input name="id" type="text" placeholder="CI del veterinario"><br>
         <input name="email" type="text" placeholder="correo electronico"><br>
         <input name="password" type="password" placeholder="password">
         <button type="submit">Registrar Veterinario</button>
@@ -32,7 +33,7 @@
         <h2> Sus veterinarios: </h2>
         @foreach($vets1 as $vet)
         <div style="background-color: gray; padding; 10px; margin: 10px;">
-            <h3>Vet: {{$vet['nombre']}} de la veterinaria {{$vet->vetClinic->nombre}}, con codigo {{$vet->vetClinic->codigo}}</h3>
+            <h3>Vet: {{$vet['nombre']}} ({{$vet['id']}}) de la veterinaria {{$vet->vetClinic->nombre}}, con codigo {{$vet->vetClinic->id}}</h3>
             <h3>Registrado en: {{$vet['created_at']}}</h3>
             <h3>email: {{$vet['email']}}</h3>
         
@@ -59,11 +60,16 @@
         <h2> Register </h2>
         <form action="/registerclinic" method="POST">
         @csrf
-        <input name="codigo" type="number" placeholder="codigo">
-        <input name="nombre" type="text" placeholder="nombre">
+        <input name="id" type="number" placeholder="codigo"><br>
+        <input name="nombre" type="text" placeholder="nombre"><br>
         <input name="telf" type="number" placeholder="numero telefonico"><br>
-        <input name="email" type="text" placeholder="email">
-        <input name="direccion" type="text" placeholder="direccion">
+        <input name="email" type="text" placeholder="email"><br>
+        <input name="direccion" type="text" placeholder="direccion"><br>
+        Tipo de veterinaria:<br>
+        <input type="radio" name="tipo" value="clinica" id="clinica">
+        <label for="clinica">Clinica</label><br>
+        <input type="radio" name="tipo" value="consultorio" id="consultorio">
+        <label for="consultorio">Consultorio</label><br>
         <input name="password" type="password" placeholder="password"><br>
         <button>Register</button>
         </form>
@@ -73,11 +79,21 @@
         <h2> LogIn </h2>
         <form action="/loginclinic" method="POST">
         @csrf
-        <input name="codigo" type="number" placeholder="codigo">
+        <input name="id" type="number" placeholder="codigo">
         <input name="loginpassword" type="password" placeholder="password">
         <button>Log in</button>
         </form>
     </div>
+    
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
         
     @endauth
 </body>

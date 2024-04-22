@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('veterinaria', function (Blueprint $table) {
+            /*
             $table->id();
             $table->timestamps();
             $table->string('codigo')->unique();
@@ -19,6 +20,17 @@ return new class extends Migration
             $table->string('telf')->nullable();
             $table->string('email')->nullable();
             $table->string('direccion')->nullable();
+            */
+
+            $table->unsignedBigInteger('id')->unique()->primary();
+            $table->string('nombre');
+            $table->string('telf')->nullable();
+            $table->string('email')->nullable()->unique();
+            $table->string('direccion')->nullable();
+            $table->enum('tipo', ['clinica', 'consultorio']);
+            $table->string('password');
+            $table->timestamps();
+            
         });
     }
 

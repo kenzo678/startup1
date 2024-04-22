@@ -20,6 +20,7 @@ class VetController1 extends Controller
         try {
             $incomingFields = $request->validate([
                 'veterinaria_id' => ['required', 'min:1', 'max:30'],
+                'id'=>['required'],
                 'nombre' => ['required', 'min:3', 'max:30', Rule::unique('vets', 'nombre')],
                 'email' => ['max:50', 'email', Rule::unique('vets', 'email')],
                 'password' => ['required', 'min:8']
@@ -41,11 +42,12 @@ class VetController1 extends Controller
             //Log::info('Vet logged in successfully', ['vet' => $vet]);
 
             return redirect('/clinica')->with('success', 'Vet registered successfully.');
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             Log::error('Vet registration failed', ['error' => $e->getMessage()]);
 
-            return back()->withErrors('Registration failed. Please try again.')->withInput();
-        }
+            return back()->withInput()->withErrors('Clinic registration failed. Please try again.')->withInput();
+            
+            }
     }
 
     public function logout() {
@@ -55,24 +57,26 @@ class VetController1 extends Controller
 
     public function login(Request $request) {
         $incomingFields = $request->validate([
-            'loginname' => ['required'],
+            'CI' => ['required'],
             'loginpassword' => ['required']
         ]);
 
         Log::info('Validation passed', $incomingFields);
 
         try {
-            if(auth()->guard('vet')->attempt(['nombre' => $incomingFields['loginname'], 'password' => $incomingFields['loginpassword']])) {
+            if(auth()->guard('vet')->attempt(['id' => $incomingFields['CI'], 'password' => $incomingFields['loginpassword']])) {
                 $request->session()->regenerate();
                 Log::info('Vet logged in', ['vet' => auth()->guard('vet')]);
                 return redirect('/vet');
             }
         } catch (\Throwable $e) {
             Log::error('Error occurred during login attempt', ['error' => $e->getMessage()]);
+            return redirect('/vet');
         }
     
-        Log::warning('Login attempt failed', ['codigo' => $incomingFields['loginname']]);
-    }
+        Log::warning('Login attempt failed', ['codigo' => $incomingFields['CI']]);
+        return redirect('/vet');
+    }  
 
     public function showEditScreen(Vet $vet) {
         return view('edit-vet', ['vet'=> $vet]);

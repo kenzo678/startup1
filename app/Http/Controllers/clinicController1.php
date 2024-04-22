@@ -12,22 +12,23 @@ class clinicController1 extends Controller
     public function register(Request $request) {
         try {
             $incomingFields = $request->validate([
-                'codigo' => ['required', 'min:3', 'max:20'],
+                'id' => ['required', 'min:3', 'max:20'],
                 'nombre' => ['required', 'min:3', 'max:30', Rule::unique('veterinaria', 'nombre')],
                 'telf' => ['required', 'min:3', 'max:12'],
                 'email' => ['max:50', 'email', Rule::unique('veterinaria', 'email')],
                 'direccion'=>['required', 'max:100'],
+                'tipo'=>['required'],
                 'password' => ['required', 'min:8', 'max:25']
             ]);
 
             Log::info('Validation passed', $incomingFields);
 
-            $incomingFields['password'] = bcrypt($incomingFields['password']);
-
             foreach ($incomingFields as $key => $value) {
                 $incomingFields[$key] = strip_tags($value);
             }
-            
+
+            $incomingFields['password'] = bcrypt($incomingFields['password']);
+
             $vete = Veterinaria::create($incomingFields);
             Log::info('Vet created', ['veterinaria' => $vete]);
 
@@ -50,12 +51,12 @@ class clinicController1 extends Controller
 
     public function login(Request $request) {
         $incomingFields = $request->validate([
-            'codigo' => ['required'],
+            'id' => ['required'],
             'loginpassword' => ['required']
         ]);
     
         try {
-            if(auth()->guard('veterinaria')->attempt(['codigo' => $incomingFields['codigo'], 'password' => $incomingFields['loginpassword']])) {
+            if(auth()->guard('veterinaria')->attempt(['id' => $incomingFields['id'], 'password' => $incomingFields['loginpassword']])) {
                 $request->session()->regenerate();
                 return redirect('/clinica');
             }
@@ -63,7 +64,7 @@ class clinicController1 extends Controller
             Log::error('Error occurred during login attempt', ['error' => $e->getMessage()]);
         }
     
-        Log::warning('Login attempt failed', ['codigo' => $incomingFields['codigo']]);
+        Log::warning('Login attempt failed', ['id' => $incomingFields['codigo']]);
     
         return back()->withErrors([
             'codigo' => 'The provided credentials do not match our records.',

@@ -16,7 +16,7 @@ class Veterinaria extends Authenticatable
 
     protected $table = 'veterinaria';
 
-    protected $fillable = ['codigo','nombre', 'telf', 'email', 'direccion','password']; 
+    protected $fillable = ['id','nombre', 'telf', 'email', 'direccion','tipo','password']; 
     
     public function clinicaVets() {
         return $this->hasMany(Vet::class, 'id');

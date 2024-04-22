@@ -12,7 +12,7 @@ class Vet extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $fillable = ['veterinaria_id', 'nombre', 'email', 'password']; 
+    protected $fillable = ['id','veterinaria_id', 'nombre', 'email', 'password']; 
 
         /**
      * The attributes that should be hidden for serialization.

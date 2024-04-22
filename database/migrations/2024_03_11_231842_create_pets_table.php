@@ -23,10 +23,12 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nombre');
+            $table->date('fecha_nac');
             $table->string('especie');
             $table->enum('sexo', ['m', 'f']);
             $table->decimal('peso', 8, 2); // Assuming weight is stored as decimal with 8 digits total and 2 digits after the decimal point
             $table->text('observaciones')->nullable();
+            $table->boolean('visible');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             // Assuming 'users' table exists and 'id' column is the primary key

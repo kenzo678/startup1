@@ -16,6 +16,7 @@
         <form action="/register-pet" method="POST">
         @csrf
         <input name="nombre" type="text" placeholder="nombre de mascota"><br>
+        Fecha de Nacimiento de la mascota: <input name="fecha_nac" type="date" value="{{ now()->toDateString() }}"><br>
         <input name="especie" type="text" placeholder="especie de mascota"><br>
         <select name="sexo" required>
             <option value="m">Macho</option>
@@ -36,12 +37,20 @@
         <h2> Sus mascotas: </h2>
         @foreach($pets as $pet)
         <div style="background-color: gray; padding; 10px; margin: 10px;">
-            <h3>{{$pet['nombre']}} de {{$pet->petUser->nombre}}</h3>
-            <h3>Especie: {{$pet['especie']}}</h3>
+            <h4><b>{{$pet['nombre']}}</b> de <b>{{$pet->petUser->nombre}}</b></h4>
+            <h4>Fecha de Nacimiento: {{$pet['fecha_nac']}}</h4>
+            <h4>Especie: {{$pet['especie']}}</h4>
             <h3>Sexo: {{$pet['sexo']}}</h3>
             <h3>Peso: {{$pet['peso']}}</h3>
             <h3>Observaciones: </h3>
             {{$pet['observaciones']}}
+            <br>
+            <h3>visible?<br>{{($pet['visible'] ? "si :)" : "no!")}}</h3>
+            <br>
+            <form action="/petvisibility/{{$pet->id}}" method="POST">
+                @csrf
+                <button>Cambiar Visibilidad :3</button>
+            </form>
             <br>
             <div style="border: 3px solid black; background-color: light-gray; padding; 10px; margin: 10px;">
                 <h2>Tratamientos:</h2>
@@ -90,6 +99,7 @@
         <h2> Register </h2>
         <form action="/register" method="POST">
         @csrf
+        <input name="id" type="number" placeholder="Numero de CI"><br>
         <input name="nombre" type="text" placeholder="nombre"><br>
         <input name="email" type="text" placeholder="email"><br>
         <input name="telf" type="number" placeholder="numero telefonico"><br>
@@ -102,11 +112,21 @@
         <h2> LogIn </h2>
         <form action="/login" method="POST">
         @csrf
-        <input name="loginname" type="text" placeholder="nombre">
+        <input name="loginid" type="text" placeholder="Numero de CI">
         <input name="loginpassword" type="password" placeholder="password">
         <button>Log in</button>
         </form>
     </div>
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
         
     @endauth
 

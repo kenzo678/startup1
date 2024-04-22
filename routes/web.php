@@ -72,15 +72,16 @@ Route::delete('delete-vet/{vet}', [VetController1::class, 'deleteVet']);
 
 //pets
 Route::post('/register-pet', [PetController1::class, 'registerPet']);
+Route::post('/petvisibility/{pet}', [PetController1::class, 'visibility']);
 Route::get('edit-pet/{pet}', [PetController1::class, 'showEditScreen']);
 Route::put('edit-pet/{pet}', [PetController1::class, 'editThePet']);
 Route::delete('delete-pet/{pet}', [PetController1::class, 'deletePet']);
 
 //Tratamientos
-Route::post('/register-trat', [TreatmentController1::class, 'createTratamiento']);
-Route::get('edit-trat/{trat}', [TreatmentController1::class, 'showEditScreen']);
-Route::put('edit-trat/{trat}', [TreatmentController1::class, 'editTratamiento']);
-Route::delete('delete-trat/{trat}', [TreatmentController1::class, 'deleteTratamiento']);
+Route::post('/register-trat', [TreatmentController1::class, 'createTratamiento']);//->middleware('check.pet.visible');
+Route::get('edit-trat/{trat}', [TreatmentController1::class, 'showEditScreen']);//->middleware('check.pet.visible');
+Route::put('edit-trat/{trat}', [TreatmentController1::class, 'editTratamiento']);//->middleware('check.pet.visible');
+Route::delete('delete-trat/{trat}', [TreatmentController1::class, 'deleteTratamiento']);//->middleware('check.pet.visible');
 
 
 //blogpost routes
@@ -88,6 +89,7 @@ Route::post('/create-post', [PostController::class, 'createPost']);
 Route::get('edit-post/{post}', [PostController::class, 'showEditScreen']);
 Route::put('edit-post/{post}', [PostController::class, 'editThePost']);
 Route::delete('delete-post/{post}', [PostController::class, 'deletePost']);
+
 
 
 //EOF
