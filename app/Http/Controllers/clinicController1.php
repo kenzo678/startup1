@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Veterinaria;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class clinicController1 extends Controller
 {
@@ -71,4 +73,26 @@ class clinicController1 extends Controller
         ]);
     }
     
+    public function showVets()
+    {
+        try {
+            $clnc = Auth::guard('apiclnc')->user();
+            
+            // Check if the user is authenticated
+            if (!$clnc) {
+                return response()->json(['error' => 'Veterinaria no autenticada'], 401);
+            }
+    
+            // Check if the relationship exists
+            if (!$clnc->clinicaVets) {
+                return response()->json(['error' => 'No se encontraron doctores veterinari@s'], 404);
+            }
+    
+            return Auth::guard('apiclnc')->user()->clinicaVets()->latest()->get();
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Veterinaria no autenticada'], 401);
+        }
+        
+    }
+
 }

@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Log;
 
 class PetController1 extends Controller
 {
+    public function index() { //para la API
+        return Pet::all();
+    }
+
     public function __construct() {
         $this->middleware('auth')->except('showEditScreen', 'editThePet', 'deletePet');
         $this->middleware('check.pet')->only('showEditScreen', 'editThePet', 'deletePet');

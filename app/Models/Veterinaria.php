@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 use Illuminate\Database\Eloquent\Model;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 
-class Veterinaria extends Authenticatable
+class Veterinaria extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -20,5 +21,16 @@ class Veterinaria extends Authenticatable
     
     public function clinicaVets() {
         return $this->hasMany(Vet::class, 'id');
+    }
+
+    //jwt
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

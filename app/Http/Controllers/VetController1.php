@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Vet;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class VetController1 extends Controller
 {
@@ -15,13 +16,16 @@ class VetController1 extends Controller
     //    $this->middleware('check.vet')->only('showEditScreen',/* 'editTheVet',*/ 'deleteVet','login','logout');
     //}
     
+    public function index() { //para la API
+        return Vet::all();
+    }
 
     public function register(Request $request) {
         try {
             $incomingFields = $request->validate([
                 'veterinaria_id' => ['required', 'min:1', 'max:30'],
                 'id'=>['required'],
-                'nombre' => ['required', 'min:3', 'max:30', Rule::unique('vets', 'nombre')],
+                'nombre' => ['required', 'min:3', 'max:30'],
                 'email' => ['max:50', 'email', Rule::unique('vets', 'email')],
                 'password' => ['required', 'min:8']
             ]);
@@ -36,10 +40,6 @@ class VetController1 extends Controller
 
             $vet = Vet::create($incomingFields);
             Log::info('Vet created', ['vet' => $vet]);
-
-            //auth('vet')->login($vet);
-            //auth()->guard('vet')->login($vet);
-            //Log::info('Vet logged in successfully', ['vet' => $vet]);
 
             return redirect('/clinica')->with('success', 'Vet registered successfully.');
         } catch (\Exception $e) {
@@ -99,5 +99,27 @@ class VetController1 extends Controller
     public function deleteVet(Vet $vet) {
         $vet->delete();
         return redirect('/clinica');
+    }
+
+    public function showTrats()
+    {
+        try {
+            $vet = Auth::guard('apivets')->user();
+            
+            // Check if the user is authenticated
+            if (!$vet) {
+                return response()->json(['error' => 'Doctor(a) no autenticada'], 401);
+            }
+    
+            // Check if the relationship exists
+            if (!$vet->clinicaVets) {
+                return response()->json(['error' => 'No se encontraron tratamientos/visitas'], 404);
+            }
+    
+            return Auth::guard('apivets')->user()->vetTrats()->latest()->get();
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Doctor(a) no autenticada'], 401);
+        }
+        
     }
 }

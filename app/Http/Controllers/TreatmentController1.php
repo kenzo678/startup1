@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Log;
 
 class TreatmentController1 extends Controller
 {
+    public function index() { //para la API
+        return Pet_tratamiento::all();
+    }
+
     public function createTratamiento(Request $req) {
         $incomingFields = $req->validate([
             'pet_id'=>'required',

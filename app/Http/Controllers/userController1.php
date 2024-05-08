@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class userController1 extends Controller
 {
-    /*
-    public function __construct() {
-        $this->middleware('auth.user')->only(['logout']);
+    public function index() { //para la API
+        return User::all();
     }
-    */
+    
 
     public function register(Request $request) {
         
@@ -35,8 +36,9 @@ class userController1 extends Controller
         
         $user = User::create($incomingFields);
         Log::info('User created', ['veterinaria' => $user]);
-        auth()->login($user);
-        Log::info('User lgged in',  ['veterinaria' => $user]);
+        //auth()->login($user);
+        Auth::guard('web')->login($user);
+        Log::info('User logged in',  ['veterinaria' => $user]);
         return redirect('/');
     }
 
@@ -56,4 +58,29 @@ class userController1 extends Controller
         }
         return redirect('/');
     }
+
+    //showPets
+    public function showPets()
+    {
+        try {
+            $user = Auth::guard('api')->user();
+            
+            // Check if the user is authenticated
+            if (!$user) {
+                return response()->json(['error' => 'No autenticado'], 401);
+            }
+    
+            // Check if the relationship exists
+            if (!$user->usersCoolPets) {
+                return response()->json(['error' => 'No se encontraron mascotas'], 404);
+            }
+    
+            // Return the user's cool pets
+            return $user->usersCoolPets()->latest()->get();
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'No autenticado'], 401);
+        }
+    }
+
+
 }

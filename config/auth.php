@@ -48,6 +48,18 @@ return [
             'driver' => 'session',
             'provider' => 'veterinarias',
         ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
+        'apivets' => [
+            'driver' => 'jwt',
+            'provider' => 'vets',
+        ],
+        'apiclnc' => [
+            'driver' => 'jwt',
+            'provider' => 'veterinarias',
+        ],
     ],
 
     /*
