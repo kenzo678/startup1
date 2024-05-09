@@ -77,7 +77,7 @@
     
     <div style="border: 3px solid black;"> 
         <h2> LogIn </h2>
-        <form action="/loginclinic" method="POST">
+        <form action="{{route('pet.loginclinic')}}" method="POST">
         @csrf
         <input name="id" type="number" placeholder="codigo">
         <input name="loginpassword" type="password" placeholder="password">

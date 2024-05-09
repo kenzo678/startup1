@@ -60,13 +60,13 @@ class clinicController1 extends Controller
         try {
             if(auth()->guard('veterinaria')->attempt(['id' => $incomingFields['id'], 'password' => $incomingFields['loginpassword']])) {
                 $request->session()->regenerate();
-                return redirect('/clinica');
+                return view('clinica');
             }
         } catch (\Throwable $e) {
             Log::error('Error occurred during login attempt', ['error' => $e->getMessage()]);
         }
     
-        Log::warning('Login attempt failed', ['id' => $incomingFields['codigo']]);
+        Log::warning('Login attempt failed', ['id' => $incomingFields['id']]);
     
         return back()->withErrors([
             'codigo' => 'The provided credentials do not match our records.',

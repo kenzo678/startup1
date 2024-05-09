@@ -37,6 +37,7 @@ Route::group([
 
     Route::post('loginuser', [AuthController::class, 'login']);
     Route::post('logoutuser', [AuthController::class, 'logout']);
+    Route::post('registeruser', [AuthController::class, 'register']);
     Route::post('refreshuser', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
 
@@ -68,6 +69,7 @@ Route::group([
     
     Route::post('loginclinic', [AuthControllerClnc::class, 'loginc']);
     Route::post('logoutclinic', [AuthControllerClnc::class, 'logoutc']);
+    Route::post('registerclinic', [AuthControllerClnc::class, 'registerc']);
     Route::post('refreshclinic', [AuthControllerClnc::class, 'refreshc']);
     Route::post('meclinic', [AuthControllerClnc::class, 'mec']);
     
@@ -88,6 +90,7 @@ Route::group([
     
     Route::post('loginvet', [AuthControllerVets::class, 'loginv']);
     Route::post('logoutvet', [AuthControllerVets::class, 'logoutv']);
+    Route::post('registervet', [AuthControllerVets::class, 'registerv']);
     Route::post('refreshvet', [AuthControllerVets::class, 'refreshv']);
     Route::post('mevet', [AuthControllerVets::class, 'mev']);
     

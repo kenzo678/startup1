@@ -61,7 +61,7 @@ Route::get('/clinica', function () {
     }
      return view('vetdashboard', ['vets'=>$vets]); 
     });
-Route::post('/loginclinic', [clinicController1::class, 'login']);
+Route::post('/loginclinic', [clinicController1::class, 'login'])->name('pet.loginclinic');
 Route::post('/registerclinic', [clinicController1::class, 'register']);
 Route::post('/clinilogout', [clinicController1::class, 'logout']);
 //vets desde clinica dashboard

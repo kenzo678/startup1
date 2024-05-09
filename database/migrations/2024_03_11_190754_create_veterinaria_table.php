@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('direccion')->nullable();
             */
 
-            $table->unsignedBigInteger('id')->unique()->primary();
+            $table->unsignedBigInteger('id')->unique()->primary();//->autoinctrement();
             $table->string('nombre');
             $table->string('telf')->nullable();
             $table->string('email')->nullable()->unique();

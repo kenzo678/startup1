@@ -44,7 +44,7 @@ class userController1 extends Controller
 
     public function logout() {
         auth()->logout();
-        return redirect('/');
+        return view('/');
     }
 
     public function login(Request $request) {
@@ -56,7 +56,7 @@ class userController1 extends Controller
         if(auth()->attempt(['id' => $incomingFields['loginid'], 'password' => $incomingFields['loginpassword']])) {
             $request->session()->regenerate();
         }
-        return redirect('/');
+        return view('/');
     }
 
     //showPets
